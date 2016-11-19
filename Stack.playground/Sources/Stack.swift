@@ -12,9 +12,10 @@ public struct Stack<T> {
     public var isEmpty: Bool {
         return items.isEmpty
     }
+    
     public init() {
-        
     }
+    
     public init(items:[T]) {
             self.items = items
     }
