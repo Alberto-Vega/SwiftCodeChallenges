@@ -11,12 +11,13 @@ import UIKit
 var balancedTest = "()"
 var unbalancedTest = "({([(])})"
 
-//: ###Logic
-//: Convert the String into an array of Character
-//: Traverse the array of Characters
-//: If the current Character is an opening bracket we push it into the stack.
-//: If the current Character is a closing bracket we compare it with the bracket in top of the stack. If the stack is empty we return false Also if they don't match we return false. Meaning they are not balanced.
-//: At the end of this process if there is a remaining Character in the stack it is not balanced and we return false if the stack is empty then it is true.
+//: ### Logic
+//: - Convert the String into an array of Character
+//: - Traverse the array of Characters
+//: - If the current Character is an opening bracket we push it into the stack.
+//: - If the current Character is a closing bracket we compare it with the bracket in top of the stack. 
+//         - If the stack is empty or if they don't match we return false. Meaning they are not balanced.
+//: - If the end of this process if there is a remaining Character in the stack it is not balanced and we return false if the stack is empty then it is true.
 //: ### Time Complexity is O(n)
 //: We iterate over all the items in the array checking for brackets so it is proportional to the array size. We are also using extra memory by creating a stack which is O(n) worst case scenario.
 
