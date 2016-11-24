@@ -1,4 +1,3 @@
-//: Playground - noun: a place where people can play
 
 import UIKit
 
@@ -8,18 +7,17 @@ import UIKit
 //: Given an expression string exp, write a program to examine whether the pairs and the orders of “{“,”}”,”(“,”)”,”[“,”]” are correct in exp. For example, the program should print true for exp = “[()]{}{[()()]()}” and false for exp = “[(])”
 
 
-var balancedTest = "()"
-var unbalancedTest = "({([(])})"
 
 //: ### Logic
 //: - Convert the String into an array of Character
 //: - Traverse the array of Characters
 //: - If the current Character is an opening bracket we push it into the stack.
 //: - If the current Character is a closing bracket we compare it with the bracket in top of the stack. 
-//         - If the stack is empty or if they don't match we return false. Meaning they are not balanced.
+//:         - If the stack is empty or if they don't match we return false. Meaning they are not balanced.
 //: - If the end of this process if there is a remaining Character in the stack it is not balanced and we return false if the stack is empty then it is true.
 //: ### Time Complexity is O(n)
 //: We iterate over all the items in the array checking for brackets so it is proportional to the array size. We are also using extra memory by creating a stack which is O(n) worst case scenario.
+
 
 func isMatchingPair(character1: Character, character2: Character) -> Bool {
     if character1 == "(" && character2 == ")" {
@@ -55,10 +53,13 @@ func areParenthesisBalanced(expression: [Character])-> Bool {
     }
 }
 
+var balancedTest = "()"
+var unbalancedTest = "({([(])})"
+
 var arrayOfCharacters = [Character](balancedTest.characters)
 areParenthesisBalanced(expression: arrayOfCharacters)
 var arrayOfCharacters2 = [Character](unbalancedTest.characters)
-//areParenthesisBalanced(expression: arrayOfCharacters2)
+areParenthesisBalanced(expression: arrayOfCharacters2)
 
 //: 7. Find missing parenthesis in a given expression – 2 * ( 3 + 5(sasdfasdfasd)
 
