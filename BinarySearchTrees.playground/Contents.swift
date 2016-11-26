@@ -169,6 +169,10 @@ if let balancedBST = createBSTFrom(array: [0, 1, 2, 3, 5, 6, 7, 8, 9, 10], start
 
 isBalanced(root: unbalancedTree)
 //: ### Level by level printing of a Binary Search Tree.
+/*:
+ This solution uses two stacks. The time complexity is O(n) since it visits every node in the tree. Space complexity is O(n) worst case scenario. 
+Explanation of this algorithm ca be found here Video link - https://youtu.be/7uG0gLDbhsI
+*/
 func printLevelByLevelTree(root: TreeNode<Int>?) {
     guard let root = root else { return }
     var queueOne = Queue<TreeNode<Int>>()
