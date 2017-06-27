@@ -2,103 +2,69 @@
 
 import UIKit
 
-
-//: 3. Write a method to replace all spaces in a string with ‘%20’.
-
-//func replaceSpaces(string:[Character], length: Int) {
-//    var string = string
-////    var spaceCount = countSpaces(string)
-//    var newLength = length + spaceCount * 2
-//    var largerString = [Int](count: newLength, repeatedValue: 0)
-//    
-////    string[newLength] = "\0"
-//    for i in (string.count-1).stride(through: 0, by: -1){
-//        if string[i] == " " {
-//            string[newLength-1] = "0"
-//            string[newLength-2] = "2"
-//            string[newLength-3] = "%"
-//            newLength = newLength-3
-//        } else {
-//            string[newLength - 1] = string[i]
-//            newLength = newLength - 1
-//        }
-//    }
-//}
-
-func replaceSpaces(string: String)-> String {
-    var string = string
-    let spaceCount = countSpaces(string: string)
-    var newLength = string.characters.count + spaceCount * 2
-    var largerString = String(repeating: " ", count: newLength)
-
-    for character in string.characters.reversed() {
-        print(character)
-        if character == " " {
-            largerString.insert("0", at: largerString.index(before: largerString.endIndex))
-            largerString.insert("2", at: largerString.index(before:largerString.endIndex))
-            largerString.insert("%", at: largerString.index(before:largerString.endIndex))
-            newLength = newLength-3
-        } else {
-            largerString.insert(character, at: largerString.index(after:largerString.startIndex))
-            newLength = newLength - 1
-        }
-    }
-     string = largerString
-    
-    return string
-}
-
-// Helper function.
-func countSpaces(string: String)-> Int {
-    var spaceCount = 0
-    for character in string.characters {
-        if character == " " {
-            spaceCount += 1
-        }
-    }
-    return spaceCount
-}
-
-
-
-
-var string = "Hello World Again"
-//var arrayString = [Character](string.characters)
-
-replaceSpaces(string: string)
-print(string)
-
-
-/*
+/*:
  
- Given a string L representing the letter and a string N representing the newspaper, return true if the L can be written entirely from N and false otherwise.
- The letter includes only ascii characters.
+ Write a function that checks if a string is a palindrome.
  
- Language:Java
- Swap Roles End Interview
+ 
+    "nan" is a palindrome, "a" is apalindrome, "nat" is not a palindrome
+ 
+ 
+ 
+ Input    output
+ 
+ nat	   false
+ 
+ nan       true
+ 
+ oacocao   true
+ 
+ ""        true
+ 
+ Brainstorming solutions
+ 
+ Hash table: O(n) - time
+             O(n) - space
+ 
 
- Runtime Complexity: In the worst case we scan all of L and N linearly. For each character on the we do constant number of operations. Therefore, if m and n are the lengths of L and N, the runtime complexity is linear O(n+m).
+ Two variables to traverse the array from start to end and from end to start.
  
- Space Complexity: Using the variable charCode is only to make the pseudocode above clearer and can be avoided (by using the value directly). Other than that, since we use an array of constant size (256) and a constant number of variable, the space complexity is O(1).
+ O(n) - time
+ O(1) - space
+ 
+ Same concept but using recursion.
+ O(n) - time
+ O(n) - space
+ 
+ Reading from start or end its same so you could compare those characters in one pass withouth extra memory use.
+ check ocurrences of each character had to be in even numbers
+ unless it is an odd number lenght string then we can have one character with an uneven count.
+ 
  */
 
-//def isLoveLetterReproducible(L, M):
-//charMap = int array of size
-//charCount = 0
-//
-//for i from 0 to L.length:
-//charCode = int(L.charAt(i))
-//if (charMap[charCode] == 0):
-//charCount++
-//charMap[charCode]++
-//
-//for i from 0 to N.length:
-//charCode = int(L.charAt(i))
-//if (charMap[charCode] > 0):
-//charMap[charCode]--
-//if (charMap[charCode] == 0):
-//charCount--
-//if (charCount == 0):
-//return true
-//
-//return false
+func findPalindrome(string: String) -> Bool {
+    
+    if string.characters.count < 2 {
+        return true
+    }
+    
+    var characters = Array(string.characters)
+    
+    var end = characters.count-1
+    var start = 0
+    
+    while start < characters.count/2 {
+        if characters[start] != characters[end] {
+            return false
+        }
+        start += 1
+        end -= 1
+    }
+    
+    return true
+}
+
+print(findPalindrome(string: "tacocat"))
+
+
+
