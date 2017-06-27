@@ -4,7 +4,6 @@ import UIKit
 
 //: 15. Write code to remove duplicates from an unsorted linked list. Follow up: How would you solve it if temporary buffer is not allowed?
 
-
 //: Using a temporary buffer.
 
 func deleteDuplicates(n: LinkedListNode<Int>?) {

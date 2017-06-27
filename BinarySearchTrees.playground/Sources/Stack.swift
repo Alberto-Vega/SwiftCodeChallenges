@@ -19,4 +19,8 @@ public struct Stack<T> {
     public init(items:[T]) {
             self.items = items
     }
+    
+    public func length() -> Int {
+        return items.count
+    }
 }

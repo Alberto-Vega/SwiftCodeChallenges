@@ -27,19 +27,19 @@ import UIKit
 
 func replaceSpaces(string: String)-> String {
     var string = string
-    let spaceCount = countSpaces(string)
+    let spaceCount = countSpaces(string: string)
     var newLength = string.characters.count + spaceCount * 2
-    
-    var largerString = String(count: newLength, repeatedValue: Character(" "))
-    for character in string.characters.reverse() {
+    var largerString = String(repeating: " ", count: newLength)
+
+    for character in string.characters.reversed() {
         print(character)
         if character == " " {
-            largerString.insert("0", atIndex: largerString.endIndex.predecessor())
-            largerString.insert("2", atIndex: largerString.endIndex.predecessor())
-            largerString.insert("%", atIndex: largerString.endIndex.predecessor())
+            largerString.insert("0", at: largerString.index(before: largerString.endIndex))
+            largerString.insert("2", at: largerString.index(before:largerString.endIndex))
+            largerString.insert("%", at: largerString.index(before:largerString.endIndex))
             newLength = newLength-3
         } else {
-            largerString.insert(character, atIndex: largerString.startIndex.successor())
+            largerString.insert(character, at: largerString.index(after:largerString.startIndex))
             newLength = newLength - 1
         }
     }
@@ -65,5 +65,40 @@ func countSpaces(string: String)-> Int {
 var string = "Hello World Again"
 //var arrayString = [Character](string.characters)
 
-replaceSpaces(string)
+replaceSpaces(string: string)
 print(string)
+
+
+/*
+ 
+ Given a string L representing the letter and a string N representing the newspaper, return true if the L can be written entirely from N and false otherwise.
+ The letter includes only ascii characters.
+ 
+ Language:Java
+ Swap Roles End Interview
+
+ Runtime Complexity: In the worst case we scan all of L and N linearly. For each character on the we do constant number of operations. Therefore, if m and n are the lengths of L and N, the runtime complexity is linear O(n+m).
+ 
+ Space Complexity: Using the variable charCode is only to make the pseudocode above clearer and can be avoided (by using the value directly). Other than that, since we use an array of constant size (256) and a constant number of variable, the space complexity is O(1).
+ */
+
+//def isLoveLetterReproducible(L, M):
+//charMap = int array of size
+//charCount = 0
+//
+//for i from 0 to L.length:
+//charCode = int(L.charAt(i))
+//if (charMap[charCode] == 0):
+//charCount++
+//charMap[charCode]++
+//
+//for i from 0 to N.length:
+//charCode = int(L.charAt(i))
+//if (charMap[charCode] > 0):
+//charMap[charCode]--
+//if (charMap[charCode] == 0):
+//charCount--
+//if (charCount == 0):
+//return true
+//
+//return false

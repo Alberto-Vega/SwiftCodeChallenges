@@ -10,6 +10,7 @@ import UIKit
 /*:
  ### In-Order Traversal
 Visit the left node, then the current node, and finally, the right node.
+ ### Recursive.
 */
 func inOrderTraversal(root: TreeNode<Int>?) {
     guard let current = root else { return }
@@ -17,6 +18,42 @@ func inOrderTraversal(root: TreeNode<Int>?) {
     print(current.data ?? "node data is nil")   // 2. print root
     inOrderTraversal(root: current.right)       // 3. print right
 }
+//: Iterative.
+func inOrderTraversalIterative(root: TreeNode<Int>?) {
+    guard var current = root else { return }
+    var stack = Stack<TreeNode<Int>>()
+    
+    while current.left != nil {
+        if current.right != nil {
+            stack.push(item: current.right!)
+        }
+        stack.push(item: current)
+        if current.left != nil {
+            current = current.left!
+        }
+    }
+    print(stack.length())
+}
+// while (stack.length() > 0) {
+//// var node = stack.pop()
+// 
+//    
+//}
+ 
+    /*
+ 
+      3
+     / \
+    2   4
+   /
+  1
+
+ 4 3 2 1
+ 
+ 
+ 
+ */
+ 
 /*:
  ### Pre-Order Traversal
  Visit the current node before its child nodes.
@@ -54,6 +91,7 @@ inputBST.left?.left = TreeNode<Int>(data: 1)
 //inOrderTraversal(root: inputBST)
 //preOrderTraversal(root: inputBST)
 //postOrderTraversal(root: inputBST)
+inOrderTraversalIterative(root: inputBST)
 /*:
  
  ## Breadth First Traveral
@@ -86,45 +124,13 @@ func levelOrderTraversal(root: TreeNode<Int>?) {
 
 //levelOrderTraversal(root: inputBST)
 
-
-/*: 
+/*:
  ### 24. Given a sorted array, create a binary search tree with minimal height
  Don't get confused by the minimal height requirement. That is a characteristic of a binary search tree anyway.
  - Since the array is sorted just find the middle element and make it the tree root node.
  - Recursively do the same for the left and the right half of the array.
-        - Every root found on the way will be assigned as a child node of the root created on the previous step.
+ - Every root found on the way will be assigned as a child node of the root created on the previous step.
  */
-func printLevelByLevelTree(root: TreeNode<Int>?) {
-    guard let root = root else { return }
-    var queueOne = Queue<TreeNode<Int>>()
-    var queueTwo = Queue<TreeNode<Int>>()
-    
-    queueOne.enqueue(root)
-    while !queueOne.isEmpty || !queueTwo.isEmpty {
-        while !queueOne.isEmpty {
-            guard let root = queueOne.dequeue() else { return }
-            print(root.data ?? "failed to get TreeNode data", terminator: " ")
-            if let rootLeft = root.left {
-                queueTwo.enqueue(rootLeft)
-            }
-            if let rootRight = root.right {
-                queueTwo.enqueue(rootRight)
-            }
-        }
-        print("")
-        while !queueTwo.isEmpty { // queue two is not empty.
-            guard let root = queueTwo.dequeue() else { return }
-            print(root.data ?? "failed to get TreeNode data", terminator: " ")
-            if let rootLeft = root.left {
-                queueOne.enqueue(rootLeft)
-            }
-            if let rootRight = root.right {
-                queueOne.enqueue(rootRight)
-            }
-        }
-        print("")
-    }
-}
 
 func createBSTFrom(array: Array<Int>, start: Int, end: Int) -> TreeNode<Int>? {
     guard start <= end else { return nil } // Base Case.
@@ -153,18 +159,22 @@ inOrderTraversal(root: BSTRoot)
 //: ### 23. Determine if a binary tree is balanced
 //: Check Balanced: Implement a function to check if a binary tree is balanced. For the purposes of this question, a balanced tree is defined to be a tree such that the heights of the two subtrees of any node never differ by more than one.
 
+//func checkBalance(root: TreeNode<Int>?) -> Int {
+////    guard let root = root else { return 0 }
+//    
+// 
+//}
 
 func checkHeight(root: TreeNode<Int>?) -> Int {
-    if root == nil {
-        return -1
-    }
+    guard let root = root else { return -1 }
+
     
-    let leftHeight = checkHeight(root: root?.left ?? nil)
+    let leftHeight = checkHeight(root: root.left)
     if leftHeight == Int.min  {
         return Int.min
     }
     
-    let rightHeight = checkHeight(root: root?.right ?? nil)
+    let rightHeight = checkHeight(root: root.right)
     if rightHeight == Int.min  {
         return Int.min
     }
@@ -212,10 +222,41 @@ if let balancedBST = createBSTFrom(array: [0, 1, 2, 3, 5, 6, 7, 8, 9, 10], start
 isBalanced(root: unbalancedTree)
 //: ### Level by level printing of a Binary Search Tree.
 /*:
- This solution uses two stacks. The time complexity is O(n) since it visits every node in the tree. Space complexity is O(n) worst case scenario. 
+ This solution uses two queues. The time complexity is O(n) since it visits every node in the tree. Space complexity is O(n) worst case scenario.
 Explanation of this algorithm ca be found here Video link - https://youtu.be/7uG0gLDbhsI
 */
 
+func printLevelByLevelTree(root: TreeNode<Int>?) {
+    guard let root = root else { return }
+    var queueOne = Queue<TreeNode<Int>>()
+    var queueTwo = Queue<TreeNode<Int>>()
+    
+    queueOne.enqueue(root)
+    while !queueOne.isEmpty || !queueTwo.isEmpty {
+        while !queueOne.isEmpty {
+            guard let root = queueOne.dequeue() else { return }
+            print(root.data ?? "failed to get TreeNode data", terminator: " ")
+            if let rootLeft = root.left {
+                queueTwo.enqueue(rootLeft)
+            }
+            if let rootRight = root.right {
+                queueTwo.enqueue(rootRight)
+            }
+        }
+        print("")
+        while !queueTwo.isEmpty { // queue two is not empty.
+            guard let root = queueTwo.dequeue() else { return }
+            print(root.data ?? "failed to get TreeNode data", terminator: " ")
+            if let rootLeft = root.left {
+                queueOne.enqueue(rootLeft)
+            }
+            if let rootRight = root.right {
+                queueOne.enqueue(rootRight)
+            }
+        }
+        print("")
+    }
+}
 
 //printLevelByLevelTree(root: inputBST)
 
