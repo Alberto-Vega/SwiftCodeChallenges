@@ -3,6 +3,90 @@ import UIKit
 //: # Binary Search Tree.
 
 /*:
+ 
+ ## Search
+ 
+One advantage of the binary search tree is that the lookup operation is fast and simple:
+ 
+ O(log N) - time complexity in a balanced binary search tree.
+ 
+ In the case that every node only has one child, the BST is unbalanced. In which case it is pretty much like a linked list and you will have to traverse all the nodes in the worst case scenario
+ 
+    1
+      \
+        2
+          \
+            3
+              \ 
+                4
+ 
+ lookup becomes
+ O(N) - unbalanced binary search tree.
+ 
+ */
+
+//:  ### No Recursion.
+
+func lookup(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
+    var root = root
+    while root != nil {
+        guard let currentValue = root?.data else {
+            break
+        }
+        if currentValue == value {
+            break
+        }
+        if currentValue > value {
+            root = root?.left
+        } else {
+            root = root?.right
+        }
+    }
+    return root
+}
+
+
+//:  ### Recursive.
+
+func search(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
+    guard  let root = root else {
+        return nil
+    }
+    
+    guard let currentValue = root.data else {
+        return nil
+    }
+    
+    if value == currentValue {
+        return root
+    }
+    
+    if value < currentValue {
+        return search(value: value, root: root.left)
+    } else {
+        return search(value: value, root: root.right)
+    }
+}
+
+//: ###  lookup tests.
+let testBST = TreeNode<Int>(data: 4)
+// create left subtree
+testBST.left = TreeNode<Int>(data: 3)
+testBST.left?.left = TreeNode<Int>(data: 1)
+testBST.left?.right = TreeNode<Int>(data: 2)
+// create right subtree
+testBST.right = TreeNode<Int>(data: 6)
+testBST.right?.left = TreeNode<Int>(data: 5)
+testBST.right?.right = TreeNode<Int>(data: 7)
+
+if let result = search(value: 7, root: testBST)?.data {
+    print(result)
+}
+
+if let result = lookup(value: 7, root: testBST)?.data {
+    print(result)
+}
+/*:
  -----
   ## Traversals
   ## Depth First Traveral
