@@ -17,6 +17,10 @@ Questions are organized by data structures. There is a playground corresponding 
 
 ## The Algorithms.
 #### Binary Search Tree
+Search operation
+- Recursion
+- No recursion
+
 Depth First Traversal
 - In-Order
 - Pre-Order
