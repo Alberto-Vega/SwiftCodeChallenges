@@ -1,6 +1,68 @@
 
 import Foundation
 
+/*:
+ You have an array of integers, and for each index you want to find the product of every integer except the integer at that index.
+ Write a function getProductsOfAllIntsExceptAtIndex() that takes an array of integers and returns an array of the products.
+ 
+ 
+ Input         Output
+ 
+ [1,7,3,4]    [84, 12, 24, 21]
+ 
+ Brainstorming solutions
+ 
+ A brute force approach would use two loops to multiply the integer at every index by the integer at every nestedIndex, unless index == nestedIndex.
+ 
+ O(n^2) - time complexity
+ 
+ Greedy Approach
+ 
+ O(n) - time
+ O(n) - space
+ 
+ */
+
+enum ProductsOfOtherNumbersError: Error, CustomStringConvertible {
+    case lessThanTwo
+    
+    var description: String {
+        return "Getting the product of numbers at other indeices requires at least 2 numbers"
+    }
+}
+
+func getProductsOfAllIntsExceptAtIndex(_ ints: [Int]) throws -> [Int] {
+
+    guard ints.count >= 2 else {
+        throw ProductsOfOtherNumbersError.lessThanTwo
+    }
+    // we make an array with the lenght of the input array to
+    // hold our products
+    var productsOfAllIntsExceptAtIndex = Array(repeating: 0, count: ints.count)
+    
+    // for each integer, we find the product of all integers
+    // before it, storing the total product so far each time
+    var productSoFar = 1
+    for i in 0..<ints.count {
+        productsOfAllIntsExceptAtIndex[i] = productSoFar
+        productSoFar *= ints[i]
+    }
+    
+    // for each integer, we find the product of all the integers
+    // after it. since each index in pruducts already has the 
+    // product of all the integers before it, now we're storing
+    // the total product of all other integers
+    productSoFar = 1
+    for i in (0..<ints.count).reversed() {
+        productsOfAllIntsExceptAtIndex[i] *= productSoFar
+        productSoFar *= ints[i]
+    }
+    
+    return productsOfAllIntsExceptAtIndex
+}
+
+    print(try getProductsOfAllIntsExceptAtIndex([1, 7, 3, 4]))
+    
 /*: 
  Given an array of integers where each value 1 <= x <= len(array), write a function that finds all the duplicates in the array.
  
