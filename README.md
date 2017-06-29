@@ -16,6 +16,13 @@ Just download the **Swift Playgrounds** open them in **Xcode** and uncomment the
 Questions are organized by data structures. There is a playground corresponding to each data structure containing multiple questions.
 
 ## The Algorithms.
+
+#### Strings
+
+- Write a function that counts the number of words in a camelCase string.
+- Write a function that checks if a string is a palindrome.
+- Write a method to replace all spaces in a string with ‘%20’.
+
 #### Binary Search Tree
 Search operation
 - Recursion
