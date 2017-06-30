@@ -4,21 +4,102 @@ import UIKit
 
 /*:
  
+ ## Insert
+ 
+A new key is always inserted at leaf. We start searching a key from root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node.
+ 
+             100                               100
+            /   \        Insert 40            /    \
+          20     500    --------->          20     500
+         /  \                              /  \
+        10   30                           10   30
+                                                \
+                                                40
+ 
+ */
+
+//:  ### Recursive.
+
+func insertRecursive(root: TreeNode<Int>?, data: Int) -> TreeNode<Int>? {
+    var root = root
+    if root == nil {
+        root = TreeNode(data: data)
+        return root
+    }
+    
+    guard let currentNode = root, let currentData = currentNode.data else {
+        return nil
+    }
+    
+    if data < currentData {
+        currentNode.left = insertRecursive(root: currentNode.left, data: data)
+    } else if data > currentData {
+        currentNode.right = insertRecursive(root: currentNode.right, data: data)
+    }
+    return root
+}
+
+//:  ### No Recursion.
+
+
+
+
+
+
+//: ###  Insertion tests.
+let testBST1 = TreeNode<Int>(data: 4)
+// create left subtree
+testBST1.left = TreeNode<Int>(data: 2)
+testBST1.left?.left = TreeNode<Int>(data: 1)
+testBST1.left?.right = TreeNode<Int>(data: 3)
+// create right subtree
+testBST1.right = TreeNode<Int>(data: 6)
+testBST1.right?.left = TreeNode<Int>(data: 5)
+testBST1.right?.right = TreeNode<Int>(data: 7)
+/*:
+ This tree looks like this:
+ 
+            4
+          /   \
+        2       6
+       / \     / \
+      1   3   5   7
+ */
+// print tree helper function
+
+func printTreeInOrder(root: TreeNode<Int>?) {
+    if root == nil {
+        return
+    }
+    printTreeInOrder(root: root?.left)
+    if let currentData = root?.data {
+        print(currentData)
+    }
+    printTreeInOrder(root: root?.right)
+}
+
+// tests
+insertRecursive(root: testBST1, data: 8)
+
+printTreeInOrder(root: testBST1)
+
+/*:
+ 
  ## Search
  
-One advantage of the binary search tree is that the lookup operation is fast and simple:
+ One advantage of the binary search tree is that the lookup operation is fast and simple:
  
  O(log N) - time complexity in a balanced binary search tree.
  
  In the case that every node only has one child, the BST is unbalanced. In which case it is pretty much like a linked list and you will have to traverse all the nodes in the worst case scenario
  
-    1
-      \
-        2
-          \
-            3
-              \ 
-                4
+            1
+             \
+              2
+               \
+                3
+                 \
+                  4
  
  lookup becomes
  O(N) - unbalanced binary search tree.
@@ -27,7 +108,7 @@ One advantage of the binary search tree is that the lookup operation is fast and
 
 //:  ### No Recursion.
 
-func lookup(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
+func search(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
     var root = root
     while root != nil {
         guard let currentValue = root?.data else {
@@ -48,7 +129,7 @@ func lookup(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
 
 //:  ### Recursive.
 
-func search(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
+func searchRecursive(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
     guard  let root = root else {
         return nil
     }
@@ -62,30 +143,32 @@ func search(value: Int, root: TreeNode<Int>?) -> TreeNode<Int>? {
     }
     
     if value < currentValue {
-        return search(value: value, root: root.left)
+        return searchRecursive(value: value, root: root.left)
     } else {
-        return search(value: value, root: root.right)
+        return searchRecursive(value: value, root: root.right)
     }
 }
 
-//: ###  lookup tests.
+//: ###  Search tests.
 let testBST = TreeNode<Int>(data: 4)
 // create left subtree
-testBST.left = TreeNode<Int>(data: 3)
-testBST.left?.left = TreeNode<Int>(data: 1)
-testBST.left?.right = TreeNode<Int>(data: 2)
+testBST1.left = TreeNode<Int>(data: 3)
+testBST1.left?.left = TreeNode<Int>(data: 1)
+testBST1.left?.right = TreeNode<Int>(data: 2)
 // create right subtree
-testBST.right = TreeNode<Int>(data: 6)
-testBST.right?.left = TreeNode<Int>(data: 5)
-testBST.right?.right = TreeNode<Int>(data: 7)
+testBST1.right = TreeNode<Int>(data: 6)
+testBST1.right?.left = TreeNode<Int>(data: 5)
+testBST1.right?.right = TreeNode<Int>(data: 7)
 
-if let result = search(value: 7, root: testBST)?.data {
-    print(result)
+// tests
+if let result = searchRecursive(value: 7, root: testBST1)?.data {
+//    print(result)
 }
 
-if let result = lookup(value: 7, root: testBST)?.data {
-    print(result)
+if let result = searchRecursive(value: 7, root: testBST1)?.data {
+//    print(result)
 }
+
 /*:
  -----
   ## Traversals
@@ -158,7 +241,7 @@ func postOrderTraversal(root: TreeNode<Int>?) {
     postOrderTraversal(root: current.right)     // 2. print right
     print(current.data ?? "node data is nil")   // 3. print current
 }
-//: ###  Traversals tests.
+//: ### Traversals tests.
 let inputBST = TreeNode<Int>(data: 3)
 inputBST.left = TreeNode<Int>(data: 2)
 inputBST.right = TreeNode<Int>(data: 4)
@@ -175,7 +258,7 @@ inputBST.left?.left = TreeNode<Int>(data: 1)
 //inOrderTraversal(root: inputBST)
 //preOrderTraversal(root: inputBST)
 //postOrderTraversal(root: inputBST)
-inOrderTraversalIterative(root: inputBST)
+//inOrderTraversalIterative(root: inputBST)
 /*:
  
  ## Breadth First Traveral
@@ -228,7 +311,8 @@ func createBSTFrom(array: Array<Int>, start: Int, end: Int) -> TreeNode<Int>? {
 }
 
 let BSTRoot = createBSTFrom(array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], start: 0, end: 9)
-inOrderTraversal(root: BSTRoot)
+
+//inOrderTraversal(root: BSTRoot)
 /*:
   The result looks like:
  
@@ -300,10 +384,10 @@ unbalancedTree.left?.left?.left = TreeNode<Int>(data: 0)
  */
 
 if let balancedBST = createBSTFrom(array: [0, 1, 2, 3, 5, 6, 7, 8, 9, 10], start: 0, end: 9) {
-    isBalanced(root: balancedBST)
+//    isBalanced(root: balancedBST)
 }
 
-isBalanced(root: unbalancedTree)
+//isBalanced(root: unbalancedTree)
 //: ### Level by level printing of a Binary Search Tree.
 /*:
  This solution uses two queues. The time complexity is O(n) since it visits every node in the tree. Space complexity is O(n) worst case scenario.
