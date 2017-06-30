@@ -18,7 +18,7 @@ Questions are organized by data structures. There is a playground corresponding 
 ## The Algorithms.
 
 #### Strings
-
+- Given an array of integers, find the highest product you can get from three of the integers.
 - Write a function that counts the number of words in a camelCase string.
 - Write a function that checks if a string is a palindrome.
 - Write a method to replace all spaces in a string with ‘%20’.
