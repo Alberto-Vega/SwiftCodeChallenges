@@ -150,7 +150,8 @@ extension LinkedList: CustomStringConvertible {
         var s = "["
         var node = head
         while node != nil {
-            s += "\(node!.value)"
+            let value: String = node!.value as? String ?? ""
+            s += value
             node = node!.next
             if node != nil { s += ", " }
         }

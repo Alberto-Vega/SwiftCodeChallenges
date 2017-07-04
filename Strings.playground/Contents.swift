@@ -3,6 +3,53 @@
 import UIKit
 
 /*:
+ Write a function that counts the number of words in a camelCase string.
+ 
+    input:    							output:
+ 
+	albertoVegaGonzalez                     3
+	one										1
+    twoWords								2
+    ""										0
+    nil										0
+ 
+ 
+ Check each character for uppercase
+
+ O(N) - time
+ O(1) - space
+
+
+ */
+
+let camelCaseString = "twoWords"
+let stringCharacters = String(camelCaseString).characters.map{ String($0) }
+
+func countCamelCaseWords(string: String?) -> Int {
+    if string == "" || string == nil {
+        return 0
+    }
+    
+    var counter = 1
+    let charArray = string?.unicodeScalars.map {$0}
+    let upperCase = NSCharacterSet.uppercaseLetters
+
+    guard let characters = charArray else {
+        return 0
+    }
+    
+    for character in characters {
+        
+        if upperCase.contains(character) {
+            counter += 1
+        }
+    }
+    return counter
+}
+
+print(countCamelCaseWords(string: "albertoVega"))
+
+/*:
  
  Write a function that checks if a string is a palindrome.
  

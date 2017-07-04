@@ -2,6 +2,165 @@
 import Foundation
 
 /*:
+Given an array of integers, find the highest product you can get from three of the integers.
+ 
+ 
+ Input                      Output
+ 
+ [1,2,3,4,5]                    60
+ []                             0
+ [-10, -10, 1, 3 , 2]           300
+ 
+ Brainstorming solutions
+ 
+ Brute Force
+ 
+ O(n^3) - time complexity
+ 
+ Sorting the Array
+ 
+ O(n log n)
+ 
+ Greedy Approach
+ 
+ O(n) - time
+ O(1) - space
+ 
+ */
+
+
+//: This solution keeps track of
+
+enum HighestProductError: Error, CustomStringConvertible {
+    case lessThanThree
+    
+    var description: String {
+        return "Less than 3 items!"
+    }
+}
+
+func highestProductOf3(_ items: [Int]) throws -> Int {
+    guard items.count >= 3 else {
+        throw HighestProductError.lessThanThree
+    }
+    
+    // We're going to start at the 3rd item (at index 2)
+    // so pre-populate highests and lowests based on the first 2 items,
+    // we could also start these as null and check below if they're set
+    // but this is arguably cleaner
+    
+    var highest = max(items[0], items[1])
+    var lowest = min(items[0], items[1])
+    
+    var highestProductOf2 = items[0] * items[1]
+    var lowestProductOf2 = items[0] * items[1]
+    
+    // except this one-- we pre-populate it for the first /3/ items.
+    // this means in our first pass it'will check against itself, which is fine.
+    var highestProductOf3 = items[0] * items[1] * items[2]
+    // walk through items, starting at index 2
+    
+    for i in 2..<items.count {
+        let current = items[i]
+        
+        // do we have a new highest product of 3?
+        // it's either the current highest,
+        // or the current times the highest product of two
+        // or the current times the lowest product of two
+        highestProductOf3 = max(highestProductOf3,
+                                current * highestProductOf2,
+                                current * lowestProductOf2)
+        
+        // do we have a new highest product of two?
+        highestProductOf2 = max(highestProductOf2,
+                                current * highest,
+                                current * lowest)
+        
+        // do we have a new lowest product of two?
+        lowestProductOf2 = min(lowestProductOf2,
+                               current * highest,
+                                current * lowest)
+        
+        // do we have a new highest?
+        highest = max(highest, current)
+        
+        // do we have a new lowest?
+        lowest = min(lowest, current)
+    }
+    
+    return highestProductOf3
+}
+
+
+//: This is my solution, it keeps track of the three largest numbers and then multiplies them.
+
+func highestProductOfThree(numbers: [Int]) throws -> Int {
+    
+    guard numbers.count >= 3 else {
+        throw HighestProductError.lessThanThree
+    }
+    
+    var first = 0
+    var second = 0
+    var third = 0
+    
+    for number in numbers {
+        if abs(number) >= abs(first) {
+            third = second
+            second = first
+            first = number
+        } else if abs(number) > abs(second) {
+            third = second
+            
+            second = number
+        } else if abs(number) > abs(third) {
+            third = number
+        }
+    }
+    
+    return first * second * third
+}
+
+//: Test solution number 1
+do {
+    print(try highestProductOf3([1,2,3,4,5]))
+} catch {
+    print(error)
+}
+
+do {
+    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
+} catch {
+    print(error)
+}
+
+do {
+    print(try highestProductOf3([]))
+} catch {
+    print(error)
+}
+
+//: Test solution number 2
+do {
+    print(try highestProductOf3([1,2,3,4,5]))
+} catch {
+    print(error)
+}
+
+do {
+    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
+} catch {
+    print(error)
+}
+
+do {
+    print(try highestProductOfThree(numbers: []))
+} catch {
+    print(error)
+}
+
+
+/*:
  You have an array of integers, and for each index you want to find the product of every integer except the integer at that index.
  Write a function getProductsOfAllIntsExceptAtIndex() that takes an array of integers and returns an array of the products.
  
