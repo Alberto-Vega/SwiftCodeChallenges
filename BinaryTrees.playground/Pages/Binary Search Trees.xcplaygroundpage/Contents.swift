@@ -41,7 +41,34 @@ func insertRecursive(root: TreeNode<Int>?, data: Int) -> TreeNode<Int>? {
 
 //:  ### No Recursion.
 
-
+func insertIterative(root: TreeNode<Int>?, data: Int) -> TreeNode<Int>? {
+    var root = root
+    var currentRoot = root
+    let newNode = TreeNode(data: data)
+    
+    if currentRoot == nil {
+        root = newNode
+        return root
+    }
+    
+    while currentRoot != nil {
+        guard let currentData = currentRoot?.data else { break }
+        if data < currentData {
+            if currentRoot?.left == nil {
+                currentRoot?.left = newNode
+                break
+            }
+            currentRoot = currentRoot?.left
+        } else if data > currentData {
+            if currentRoot?.right == nil {
+                currentRoot?.right = newNode
+                break
+            }
+                currentRoot = currentRoot?.right
+        }
+    }
+    return root
+}
 
 
 
@@ -78,10 +105,14 @@ func printTreeInOrder(root: TreeNode<Int>?) {
     printTreeInOrder(root: root?.right)
 }
 
-// tests
-insertRecursive(root: testBST1, data: 8)
-
+//: tests
+//verify the order of our tree.
 printTreeInOrder(root: testBST1)
+// These tests can't be run at the same time since both are manipulating the same tree. Run one or the other.
+
+
+//printTreeInOrder(root: insertRecursive(root: testBST1, data: 8))
+//printTreeInOrder(root: insertIterative(root: testBST1, data: 8))
 
 /*:
  
@@ -161,7 +192,7 @@ testBST1.right?.left = TreeNode<Int>(data: 5)
 testBST1.right?.right = TreeNode<Int>(data: 7)
 
 // tests
-if let result = searchRecursive(value: 7, root: testBST1)?.data {
+if let result = search(value: 7, root: testBST1)?.data {
 //    print(result)
 }
 
