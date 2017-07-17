@@ -74,5 +74,18 @@ class Logger {
 /*:
  3. Why would you use the Decorator instead of inheritance.
  
+ - Inheritance typically allows modification of the parent class only at compile time, while decorations are applied dinamically at run time.
  
+ - As the number of behaviours increases, class hierarchy rapidly gets out of hand. The number of classes  doubles each time you add a new behaviour. You can avoid this explosion with the Decorator pattern. Each behaviour is completely described by a single Decorator class, and you can generate whatever combination of behaviours you need by applying the appropiate set of decorations.
+ 
+ - Decorator pattern symplifies object oriented design. Although should be careful to not use it if you dont need to dynamically modify  the behaviour of an object. Then it's probably better to use inheritance to avoid the complexity of this pattern.
+ 
+ 
+ 4. In the Observer Pattern, what strategies can the subject use to efficiently update it's observers?
+ 
+ 
+ - A naive implementation of the Observer can yield to poor performance if many objects are observing other objects.
+ 
+ - When multiple properties are changed many times in rapid succesion in a single code sequence. It would make more sense to briefly turn updates off, make the changes, then turn updates on and send a single update notification to all the observer objects.
+ - Instead of having to change the whole view in an application and do unnecessary redrawing, we can change specific things. To do this we can have the subject pass the information about what parts of the data have changed as part of the update notification.
  */
