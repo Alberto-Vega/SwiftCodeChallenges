@@ -41,30 +41,30 @@ func search(array: [Int], low: Int, high: Int)
     {
         if(array[mid] == array[mid+1])
         {
-            search(array, low: mid + 2, high: high)
+            search(array: array, low: mid + 2, high: high)
         } else {
-            search(array, low: low, high: mid)
+            search(array: array, low: low, high: mid)
         }
     }
     else // if mid is odd.
     {
        if (array[mid] == array[mid - 1])
        {
-        search(array, low: mid + 1 , high: high)
+        search(array: array, low: mid + 1 , high: high)
         }
        else
        {
-        search(array, low: low, high: mid - 1)
+        search(array: array, low: low, high: mid - 1)
         }
     }
 }
 
-search(array1, low: 0, high: array1.count - 1)
-
-search(array2, low: 0, high: array2.count - 1)
-
-search(array3, low: 0, high: array3.count - 1)
-search(array4, low: 0, high: array4.count - 1)
+//search(array: array1, low: 0, high: array1.count - 1)
+//
+//search(array: array2, low: 0, high: array2.count - 1)
+//
+//search(array: array3, low: 0, high: array3.count - 1)
+//search(array: array4, low: 0, high: array4.count - 1)
 
 /*:
 2. A magic index in an array A[0…n-1] is defined to be an index such that A[i] = i. Given a sorted array of distinct integers, write a method to find a magic index if one exists, in an array A. FOLLOW UP: What if the values are not distinct?
@@ -72,22 +72,22 @@ search(array4, low: 0, high: array4.count - 1)
 // Input
 var array = [-5, -1, 0, 1, 4, 7]
 
-func binarySearch( array: [Int], low: Int, high: Int) -> Int {
+func binarySearch(array: [Int], low: Int, high: Int) -> Int {
     if (high >= low) {
         let mid = low + (high - low)/2
         if mid == array[mid] {
             return mid
         }
         if mid > array[mid] {
-            return binarySearch(array, low: mid + 1, high: high)
+            return binarySearch(array: array, low: mid + 1, high: high)
         } else {
-            return binarySearch(array, low: low, high: mid - 1)
+            return binarySearch(array: array, low: low, high: mid - 1)
         }
     }
     return -1
 }
 
-var resultBinary = binarySearch(array, low: 0, high: array.count - 1)
+//var resultBinary = binarySearch(array: array, low: 0, high: array.count - 1)
 
 func magicNonDistinct(array: [Int], start: Int, end: Int) -> Int {
     Swift.print("Start: \(start) end: \(end)")
@@ -103,16 +103,16 @@ func magicNonDistinct(array: [Int], start: Int, end: Int) -> Int {
     if v == mid { return mid }
     
     let leftEnd = min(v,mid-1)
-    let leftRes = magicNonDistinct(array, start: start, end: leftEnd)
+    let leftRes = magicNonDistinct(array: array, start: start, end: leftEnd)
     if leftRes != -1 { return leftRes }
     
     let rightStart = max(v, mid+1)
-    let rightRes = magicNonDistinct(array, start: rightStart, end: end)
+    let rightRes = magicNonDistinct(array: array, start: rightStart, end: end)
     return rightRes
     
 }
 
-var result = magicNonDistinct(array, start: 0, end: array.count-1)
+//var result = magicNonDistinct(array: array, start: 0, end: array.count-1)
 
 /*:
  3. Given a sorted array of n integers that has been rotated an unknown number of times, write code to find an element in the array. You may assume that the array was originally sorted in increasing order.
@@ -150,11 +150,11 @@ func  findElementInRotatedArray(array: [Int], x: Int) -> Int {
 
 var rotated = [12,14,18,21,3,6,8,9]
 var rotated2 = [-3,-2,-1,1,3,6,7,8,-5]
-let result1 = findElementInRotatedArray(rotated, x: 9)
-print("The x element is at index: \(result1)")
-
-let result2 = findElementInRotatedArray(rotated2, x: -5)
-print("The x element is at index: \(result2)")
+let result1 = findElementInRotatedArray(array: rotated, x: 9)
+//print("The x element is at index: \(result1)")
+//
+//let result2 = findElementInRotatedArray(array: rotated2, x: -5)
+//print("The x element is at index: \(result2)")
 
 
 //: 4. Given an array that contains numbers from 1 to n-1 and exactly 1 duplicate, find that duplicate.
@@ -162,23 +162,23 @@ print("The x element is at index: \(result2)")
 var array5 = [1,1,2,3,4,5]
 var array6 = [1,2,3,4,5,5]
 
-func swap(inout array: [Int], index1:Int, index2: Int) {
+func swap( array: inout [Int], index1:Int, index2: Int) {
     let temp = array[index1]
     array[index1] = array[index2]
     array[index2] = temp
 }
 
-func findDuplicateElement(inout array: [Int]) -> Int {
+func findDuplicateElement( array: inout [Int]) -> Int {
     let lastIndex = array.count-1
     
     while array[array[lastIndex]-1] != array[lastIndex] {
-        swap(&array, index1: array[array[lastIndex]-1], index2: array[lastIndex])
+        swap(array: &array, index1: array[array[lastIndex]-1], index2: array[lastIndex])
     }
     return array[array[lastIndex]-1]
 }
 
-print("The duplicated element in an array with elements from 1 to n-1: \(findDuplicateElement(&array5))")
-print("The duplicated element in an array with elements from 1 to n-1: \(findDuplicateElement(&array6))")
+//print("The duplicated element in an array with elements from 1 to n-1: \(findDuplicateElement(array: &array5))")
+//print("The duplicated element in an array with elements from 1 to n-1: \(findDuplicateElement(array: &array6))")
 
 //: Solution with mathematical formula.
 
@@ -199,7 +199,7 @@ func findDuplicateElementFormula(array: [Int]) -> Int{
     return currentArraySum - uniqueNumbersArraySum
 }
 
-print("The duplicated element in an array with elements from 1 to n-1 using formula: \(findDuplicateElementFormula(arrayWithDuplicate))")
+//print("The duplicated element in an array with elements from 1 to n-1 using formula: \(findDuplicateElementFormula(array: arrayWithDuplicate))")
 
 /*: 5. Search an element in an array where difference between adjacent elements is 1.
 
@@ -240,7 +240,7 @@ var testInput = [1,2,7,10]
 
 //: Assuming the input is sorted it will return two arrays.
 
-enum WrongInputError: ErrorType {
+enum WrongInputError: Error {
     case NotDivisible
 }
 
@@ -253,8 +253,8 @@ func arraySum(array:[Int]) -> Int {
     return sum
 }
 
-func split(inout array:[Int]) throws ->([Int], [Int]) {
-    var sum = array.reduce(0, combine: +)
+func split( array:inout [Int]) throws ->([Int], [Int]) {
+    var sum = array.reduce(0, +)
     guard sum % 2 == 0 else { throw WrongInputError.NotDivisible }
     let halfSum = sum/2
     var subSet1 = [Int]()
@@ -270,14 +270,14 @@ func split(inout array:[Int]) throws ->([Int], [Int]) {
     return (subSet1, subSet2)
 }
 
-var finalResult = try split(&testInput)
-print(finalResult.0)
-print(finalResult.1)
-
-var finalResult2 = try split(&input2)
-for i in 0..<finalResult2.0.count {
-    Swift.print(finalResult2.0[i])
-}
+//var finalResult = try split(array: &testInput)
+//print(finalResult.0)
+//print(finalResult.1)
+//
+//var finalResult2 = try split(array: &input2)
+//for i in 0..<finalResult2.0.count {
+//    Swift.print(finalResult2.0[i])
+//}
 
 
 //: # Strings
@@ -290,7 +290,7 @@ func isUniqueChars(string: String) -> Bool {
         return false
     }
     var charFlags = [String : Bool]()
-    for item in string.characters.enumerate() {
+    for item in string.characters.enumerated() {
         if (charFlags[(String(item.element))] != nil) {
             return false
         }
@@ -305,7 +305,7 @@ func isUniqueChars1(string: String) -> Bool {
     if string.characters.count > 128 {
         return false
     }
-    var characterFlags = [Bool](count:128, repeatedValue:false)
+    var characterFlags = [Bool](repeating:false, count:128)
     
     for scalar in string.unicodeScalars {
         let value = scalar.value
@@ -319,13 +319,13 @@ func isUniqueChars1(string: String) -> Bool {
 }
 
 
-let strings = ["abcde", "hello", "apple", "kite", "padle"]
-for string in strings {
-    Swift.print("\(string): \(isUniqueChars(string)) \(isUniqueChars1(string))")
-    var result =
-        isUniqueChars(string)
-    var result1 = isUniqueChars1(string)
-}
+//let strings = ["abcde", "hello", "apple", "kite", "padle"]
+//for string in strings {
+//    Swift.print("\(string): \(isUniqueChars(string: string)) \(isUniqueChars1(string: string))")
+//    var result =
+//        isUniqueChars(string: string)
+//    var result1 = isUniqueChars1(string: string)
+//}
 
 //: 2. Given two strings, write a method to decide if one is a permutation of the other?
 
@@ -335,12 +335,12 @@ func permutation(string1: String, string2: String) -> Bool {
     if string1.characters.count != string2.characters.count {
         return false
     }
-    return sort(string1) == sort(string2)
+    return sort(string: string1) == sort(string: string2)
 }
 
 func sort(string: String) -> String {
     let content = [Character](string.characters)
-    return String(content.sort(){$0 < $1})
+    return String(content.sorted(){$0 < $1})
 }
 
 //: Solution #2:
@@ -349,7 +349,7 @@ func permutation2(string1: String, string2: String) -> Bool {
         return false
     }
     
-    var letters = [Int](count:128, repeatedValue: 0)
+    var letters = [Int](repeating: 0, count:128)
     
     for scalar in string1.unicodeScalars {
         let value = scalar.value
@@ -372,12 +372,12 @@ func permutation2(string1: String, string2: String) -> Bool {
 //: Lets test both solutions:
 
 
-let stringPairs = [("dog", "god"), ("abc", "bac"), ("xyz", "yyz")]
-
-for pair in stringPairs {
-    permutation(pair.0, string2: pair.1)
-    permutation2(pair.0, string2: pair.1)
-}
+//let stringPairs = [("dog", "god"), ("abc", "bac"), ("xyz", "yyz")]
+//
+//for pair in stringPairs {
+//    permutation(string1: pair.0, string2: pair.1)
+//    permutation2(string1: pair.0, string2: pair.1)
+//}
 
 //: 3. Write a method to replace all spaces in a string with ‘%20’.
 
@@ -409,8 +409,8 @@ func replaceSpaces(string:[Character], length: Int) {
 var string = "Hello World Again"
 var arrayString = [Character](string.characters)
 
-replaceSpaces(arrayString, length: arrayString.count-1)
-print(arrayString)
+//replaceSpaces(string: arrayString, length: arrayString.count-1)
+//print(arrayString)
 
 //: 4. Implement a method to perform a basic string compression using the counts of repeated characters. For example, the string aabccccaaa would become a2b1c4a3. If the compressed string would not become smaller than the original string, your method should return the original string.
 
@@ -421,7 +421,8 @@ func compress(string: String) -> String {
     for char in string.characters.indices {
         countConsecutive += 1
         counter += 1
-        if counter >= string.characters.count || string[char] != string[char.successor()] {
+       if counter >= string.characters.count ||
+        string[char] != string[string.index(after: char)] {
             compressedString += "\(string[char])" + "\(countConsecutive)"
             countConsecutive = 0
         }
@@ -431,13 +432,13 @@ func compress(string: String) -> String {
 
 //: Lets test it:
 
-var example = "aabbcccca"
-var testResult = compress(example)
-print("compressed string is: \(testResult)")
+//var example = "aabbcccca"
+//var testResult = compress(string: example)
+//print("compressed string is: \(testResult)")
 
 //: 5. Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to 0.
 
-func setZeros(inout matrix: [[Int]]) {
+func setZeros( matrix: inout [[Int]]) {
     var rowHasZero = false
     var columnHasZero = false
     
@@ -470,7 +471,7 @@ func setZeros(inout matrix: [[Int]]) {
     //:Nullify rows based on values in first column.
     
     
-    func nullifyRow(inout matrix:[[Int]], row: Int) {
+    func nullifyRow( matrix:inout [[Int]], row: Int) {
         for j in 0..<matrix[0].count {
             matrix[row][j] = 0
         }
@@ -478,13 +479,13 @@ func setZeros(inout matrix: [[Int]]) {
     
     for i in 1..<matrix.count {
         if matrix[i][0] == 0 {
-            nullifyRow(&matrix, row: i)
+            nullifyRow(matrix: &matrix, row: i)
         }
     }
     
     //: Nullify columns based on values in first row.
     
-    func nullifyColumn(inout matrix:[[Int]], column: Int) {
+    func nullifyColumn( matrix:inout [[Int]], column: Int) {
         for i in 0..<matrix.count {
             matrix[i][column] = 0
         }
@@ -492,17 +493,17 @@ func setZeros(inout matrix: [[Int]]) {
     
     for j in 1..<matrix[0].count {
         if matrix[0][j] == 0 {
-            nullifyColumn(&matrix, column: j)
+            nullifyColumn(matrix: &matrix, column: j)
         }
     }
     
     //: Nullify first row.
     if rowHasZero {
-        nullifyRow(&matrix, row: 0)
+        nullifyRow(matrix: &matrix, row: 0)
     }
     //: Nullify first column.
     if columnHasZero {
-        nullifyColumn(&matrix, column: 0)
+        nullifyColumn(matrix: &matrix, column: 0)
     }
 }
 
@@ -512,7 +513,7 @@ var testMatrix = [[1,0,1,1],
                   [1,0,1,1],
                   [1,0,1,1]]
 
-setZeros(&testMatrix)
+setZeros(matrix: &testMatrix)
 
 func printMatrix(matrix: [[Int]]) {
     for row in 0..<matrix.count {
@@ -522,12 +523,9 @@ func printMatrix(matrix: [[Int]]) {
         Swift.print("")
     }
 }
-printMatrix(testMatrix)
 
-//: New Stuff for Kal
+//printMatrix(matrix: testMatrix)
 
-/*: 6. Given two sequences, print longest common subsequence LCS for input Sequences “ABCDGH” and “AEDFHR” is “ADH” of length 3. LCS for input Sequences “AGGTAB” and “GXTXAYB” is “GTAB” of length 4.
-*/
 
 
 
