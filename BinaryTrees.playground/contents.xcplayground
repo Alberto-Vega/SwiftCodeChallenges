@@ -3,5 +3,6 @@
     <pages>
         <page name='Binary Search Trees'/>
         <page name='Heaps'/>
+        <page name='Tries'/>
     </pages>
 </playground>
