@@ -63,8 +63,9 @@ Questions
 
 #### Design Patterns.
 Quick Overview
--Singleton questions
--Decorator question
+- Your application uses a logging class to write debugging messages to the console. How would you implement this logging facility using the Singleton pattern?
+- Why would you use the Decorator instead of inheritance.
+- In the Observer Pattern, what strategies can the subject use to efficiently update it's observers?
 
 
 ## Contributors
