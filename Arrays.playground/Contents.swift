@@ -1,7 +1,341 @@
 
 import Foundation
+/*:
+ You decide to test if your oddly-mathematical heating company is fulfilling its All-Time Max, Min, Mean and Mode Temperature Guarantee™.
+ Write a class TempTracker with these methods:
+ 
+ insert()—records a new temperature
+ getMax()—returns the highest temp we've seen so far
+ getMin()—returns the lowest temp we've seen so far
+ getMean()—returns the mean of all temps we've seen so far
+ getMode()—returns a mode of all temps we've seen so far
+ Optimize for space and time. Favor speeding up the getter functions getMax(), getMin(), getMean(), and getMode() over speeding up the insert() function.
+ 
+ getMean() should return a double, but the rest of the getter methods can return integers. Temperatures will all be inserted as integers. We'll record our temperatures in Fahrenheit, so we can assume they'll all be in the range 0..110.
+ 
+ If there is more than one mode, return any of the modes.
+ 
+ */
+struct Constants {
+    
+static let maxTemperature =  110
+}
+
+class TempTracker {
+    // for mode
+    private var occurrences = Array(repeating: 0, count: Constants.maxTemperature + 1) // array of 0s at indices 0..110
+    private var maxOcurrences = 0
+    var mode: Int?
+    
+    //for mean
+    private var totalNumbers = 0
+    private var totalSum = 0.0
+    //mean should be double
+    var mean: Double?
+    
+    // for min and max
+    var minTemp:Int?
+    var maxTemp:Int?
+    
+    func insert(temperature: Int) -> Bool {
+        // for mode
+        occurrences[temperature] += 1
+        
+        if occurrences[temperature] > maxOcurrences {
+            mode = temperature
+            maxOcurrences = occurrences[temperature]
+        }
+        
+        // for mean
+        totalNumbers += 1
+        totalSum += Double(temperature)
+        mean = totalSum / Double(totalNumbers)
+        
+        // for min and max
+        if let maxTemp = maxTemp {
+            self.maxTemp = max(maxTemp, temperature)
+        } else {
+            self.maxTemp = temperature
+        }
+        
+        if let minTemp = minTemp {
+            self.minTemp = min(minTemp, temperature)
+        } else {
+            self.minTemp = temperature
+        }
+        
+        return true
+    }
+    
+    func getMax() -> Int? {
+        return maxTemp
+    }
+    
+    func getMin() -> Int? {
+        return minTemp
+    }
+    
+    func getMean() -> Double? {
+        return mean
+    }
+    
+    func getMode() -> Int? {
+        return  mode
+    }
+}
+
+//: Testing
+
+//let tempTracker = TempTracker()
+//let temperatureReadings = [ 1, 3, 6, 3, 1, 3 ]
+//
+//for currentTemperature in temperatureReadings {
+//    tempTracker.insert(temperature: currentTemperature)
+//}
+//print(tempTracker.getMax() ?? "unable to calculate max")
+//print(tempTracker.getMin() ?? "unable to calculate min")
+//print(tempTracker.getMean() ?? "unable to calculate mean")
+//print(tempTracker.getMode() ?? "unable to calculate mode")
+
 
 /*:
+Rectangular Love
+
+*/
+
+
+struct Rectangle: CustomStringConvertible {
+    
+    // coordinates of bottom left corner
+    let leftX: Int
+    let bottomY: Int
+    
+    // dimensions
+    let width: Int
+    let height: Int
+    
+    init(leftX: Int, bottomY: Int, width: Int, height: Int) {
+        self.leftX = leftX
+        self.bottomY = bottomY
+        self.width = width
+        self.height = height
+    }
+    
+    init() {
+        self.init(leftX: 0, bottomY: 0, width: 0, height: 0)
+    }
+    
+    var description: String {
+        return String(format: "(%d, %d, %d, %d)", leftX, bottomY, width, height)
+    }
+}
+
+// compare both rectangles and determine the leftmost which is the smaller x coordinates (x coordinates start closer to 0)
+// create a new rectangle instance
+// calculate it's x coordinates to the leftmost x coordinate
+// calculate  it's width to the leftmost width minus right most x value.
+
+func findOverlapingRectangle(rectangle1: Rectangle, rectangle2: Rectangle) -> Rectangle? {
+    
+    guard let xOverlap = findRangeOverlap(point1: rectangle1.leftX, length1: rectangle1.width, point2: rectangle2.leftX, length2: rectangle2.width),
+          let yOverlap = findRangeOverlap(point1: rectangle1.bottomY, length1: rectangle1.height, point2: rectangle2.bottomY, length2: rectangle2.height) else {
+            return nil
+    }
+    
+    return Rectangle(leftX: xOverlap.startPoint, bottomY: yOverlap.startPoint, width: xOverlap.length, height: yOverlap.length)
+}
+
+struct RangeOverlap {
+    let startPoint: Int
+    let length: Int
+}
+
+func findRangeOverlap(point1: Int, length1: Int,
+                      point2: Int, length2: Int) -> RangeOverlap? {
+    
+    guard let overlapLength = findOverlappingSideSize(point1: point1, length1: length1, point2: point2, length2: length2) else {
+        return nil
+    }
+    
+    let highestStartPoint = findOverlapPoint(point1: point1, point2: point2)
+    
+    return RangeOverlap(startPoint: highestStartPoint, length: overlapLength)
+}
+
+func findOverlapPoint(point1: Int, point2: Int) -> Int {
+    return max(point1, point2)
+}
+
+func findOverlappingSideSize(point1: Int, length1: Int, point2: Int, length2: Int) -> Int? {
+    
+    let lineOneEndPoint = point1 + length1
+    let lineTwoEndPoint = point2 + length2
+    
+    let lowestLineEndPoint = min(lineOneEndPoint, lineTwoEndPoint)
+    let highestStartPoint = max(point1, point2)
+   // This part handles the case that if both of the sides touches but the overlap size is 0 
+   // returns nil since there is no point of having a 0 sized rectangle.
+    guard highestStartPoint < lowestLineEndPoint  else {
+        return nil
+    }
+    return lowestLineEndPoint - highestStartPoint
+}
+
+// Testing helper functions
+//print(findOverlappingSideSize(point1: 0, length1: 2, point2: 1, length2: 3) ?? "There was no overlap on this side")
+//print(findOverlappingSideSize(point1: 0, length1: 3, point2: 3, length2: 2) ?? "There was no overlap on this side")
+
+//print(findOverlapPoint(point1: 0, point2: 1))
+//print(findOverlapPoint(point1: 0, point2: 3))
+
+let rectangleOne = Rectangle(leftX: 0, bottomY: 0, width: 4, height: 2)
+let rectangleTwo = Rectangle(leftX: 3, bottomY: 1, width: 2, height: 3)
+
+//print(findOverlapingRectangle(rectangle1: rectangleOne, rectangle2: rectangleTwo) ?? "No overlap found")
+
+func changePossibilitiesBottomUp(amount: Int, denominations: [Int]) -> Int {
+    
+    var waysOfDoingNCents = Array(repeating: 0, count: amount + 1) // array of zeros from 0..amount
+    waysOfDoingNCents[0] = 1
+    
+    for coin in denominations {
+        if coin <= amount {
+            for higherAmount in coin...amount {
+                let higherAmountRemainder = higherAmount - coin
+                waysOfDoingNCents[higherAmount] += waysOfDoingNCents[higherAmountRemainder]
+            }
+        }
+    }
+    
+    return waysOfDoingNCents[amount]
+}
+
+//changePossibilitiesBottomUp(amount: 4, denominations: [1,2,3])
+
+/*:
+ 
+ Your company built an in-house calendar tool called HiCal. You want to add a feature to see the times in a day when everyone is available.
+ To do this, you’ll need to know when any team is having a meeting. In HiCal, a meeting is stored as an instance of a Meeting class with integer properties startTime and endTime. These integers represent the number of 30-minute blocks past 9:00am.
+ */
+
+class Meeting: CustomStringConvertible {
+    
+    var startTime: Int
+    var endTime: Int
+    
+    init(startTime: Int, endTime: Int) {
+        
+        // number of 30 min blocks past 9:00 am
+        self.startTime = startTime
+        self.endTime = endTime
+    }
+    
+    var description: String {
+        return "(\(startTime), \(endTime))"
+    }
+}
+
+func mergeRanges(in meetings: [Meeting]) -> [Meeting] {
+    // sort by start times
+    let sortedMeetings = meetings.sorted() { $0.startTime < $1.startTime }
+    // initialize mergedMeetings with the earliest meeting.
+    var mergedMeetings = [sortedMeetings[0]]
+    
+    for i in 1..<sortedMeetings.count {
+        let currentMeeting = sortedMeetings[i]
+        let lastMergedMeeting = mergedMeetings[mergedMeetings.count - 1]
+        
+        // if the current and last meetings overlap, use the latest end time
+        if currentMeeting.startTime <= lastMergedMeeting.endTime {
+            lastMergedMeeting.endTime = max(lastMergedMeeting.endTime, currentMeeting.endTime)
+        } else {
+            // add the current meeting since it doesn't overlap
+            mergedMeetings.append(currentMeeting)
+        }
+    }
+    return mergedMeetings
+}
+
+//: Test.
+
+//let result = mergeRanges(in:   [
+//    Meeting(startTime: 0, endTime: 1), Meeting(startTime: 3, endTime: 5),
+//    Meeting(startTime: 4, endTime: 8), Meeting(startTime: 10, endTime: 12),
+//    Meeting(startTime: 9, endTime: 10)])
+
+//for meeting in result {
+//        print(meeting)
+//}
+
+
+/*:
+ Mini-Max Sum Hackerrank
+ Given five positive integers, find the minimum and maximum values that can be calculated by summing exactly four of the five integers. Then print the respective minimum and maximum values as a single line of two space-separated long integers.
+ 
+ Input Format
+ 
+ A single line of five space-separated integers.
+ 
+ Constraints
+ 
+ Each integer is in the inclusive range [1,10^9].
+ Output Format
+ 
+ Print two space-separated long integers denoting the respective minimum and maximum values that can be calculated by summing exactly four of the five integers. (The output can be greater than 32 bit integer.)
+ 
+ Sample Input
+ 
+ 1 2 3 4 5
+ Sample Output
+ 
+ 10 14
+ Explanation
+ 
+ Our initial numbers are 1, 2, 3, 4, and 5. We can calculate the following sums using four of the five integers:
+ 
+ If we sum everything except 5, our sum is 1+2+3+4=10.
+ If we sum everything except 4, our sum is 1+2+3+5=11.
+ If we sum everything except 3, our sum is 1+2+4+5=12.
+ If we sum everything except 2, our sum is 1+3+4+5=13.
+ If we sum everything except 1, our sum is 2+3+4+5=12.
+ As you can see, the minimal sum is 10 and the maximal sum is 14. Thus, we print these minimal and maximal sums as two space-separated integers on a new line.
+ 
+ Hints: Beware of integer overflow! Use 64-bit Integer.
+ 
+ We can minimize the sum by excluding the largest element from the sum.
+ We can maximize the sum by excluding the smallest element from the sum.
+ 
+ So we can just find min and max number and substract them from the total sum so we can find the total.
+ 
+ */
+
+func minMaxSum(numbers:[Int]) {
+    if numbers.count < 5 {
+        return
+    }
+    // create a min and max variables and set them to the first item in the array.
+    // These will keep track of the smallest and largest numbers.
+    // create a totalSum variable to sum all the numbers in the array
+
+    var minimum = numbers[0], maximum = numbers[0], totalSum = 0
+// Iterate the array and at each step:
+    for number in numbers {
+        // Add the current number to the totalSum.
+        totalSum += number
+        // compare the current number to min and max variables and update
+        // them if necessary.
+
+        minimum = min(minimum, number)
+        maximum = max(maximum, number)
+    }
+    print("\(totalSum-maximum) \(totalSum-minimum)")
+}
+
+//minMaxSum(numbers: [1,2,3,4,5])
+
+/*:
+ Highest Product of 3
+ 
 Given an array of integers, find the highest product you can get from three of the integers.
  
  
@@ -26,10 +360,12 @@ Given an array of integers, find the highest product you can get from three of t
  O(n) - time
  O(1) - space
  
+ for the complete explanation check:
+ 
+ https://www.interviewcake.com/question/swift/highest-product-of-3
+ 
  */
 
-
-//: This solution keeps track of
 
 enum HighestProductError: Error, CustomStringConvertible {
     case lessThanThree
@@ -92,7 +428,7 @@ func highestProductOf3(_ items: [Int]) throws -> Int {
 }
 
 
-//: This is my solution, it keeps track of the three largest numbers and then multiplies them.
+//: This is my solution, it keeps track of the three largest numbers which in turn will make the highes product of 3 and then multiplies them and returns the result.
 
 func highestProductOfThree(numbers: [Int]) throws -> Int {
     
@@ -111,7 +447,6 @@ func highestProductOfThree(numbers: [Int]) throws -> Int {
             first = number
         } else if abs(number) > abs(second) {
             third = second
-            
             second = number
         } else if abs(number) > abs(third) {
             third = number
@@ -122,45 +457,48 @@ func highestProductOfThree(numbers: [Int]) throws -> Int {
 }
 
 //: Test solution number 1
-do {
-    print(try highestProductOf3([1,2,3,4,5]))
-} catch {
-    print(error)
-}
-
-do {
-    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
-} catch {
-    print(error)
-}
-
-do {
-    print(try highestProductOf3([]))
-} catch {
-    print(error)
-}
+//do {
+//    print(try highestProductOf3([1,2,3,4,5]))
+//} catch {
+//    print(error)
+//}
+//
+//do {
+//    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
+//} catch {
+//    print(error)
+//}
+//
+//do {
+//    print(try highestProductOf3([]))
+//} catch {
+//    print(error)
+//}
 
 //: Test solution number 2
-do {
-    print(try highestProductOf3([1,2,3,4,5]))
-} catch {
-    print(error)
-}
-
-do {
-    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
-} catch {
-    print(error)
-}
-
-do {
-    print(try highestProductOfThree(numbers: []))
-} catch {
-    print(error)
-}
+//do {
+//    print(try highestProductOf3([4, 4, 4, 1, 3]))
+//} catch {
+//    print(error)
+//}
+//
+//do {
+//    print(try highestProductOf3([-10, -10, 1, 3 , 2]))
+//} catch {
+//    print(error)
+//}
+//
+//do {
+//    print(try highestProductOfThree(numbers: []))
+//} catch {
+//    print(error)
+//}
 
 
 /*:
+ 
+ Product of all other numbers.
+ 
  You have an array of integers, and for each index you want to find the product of every integer except the integer at that index.
  Write a function getProductsOfAllIntsExceptAtIndex() that takes an array of integers and returns an array of the products.
  
@@ -220,8 +558,10 @@ func getProductsOfAllIntsExceptAtIndex(_ ints: [Int]) throws -> [Int] {
     return productsOfAllIntsExceptAtIndex
 }
 
-    print(try getProductsOfAllIntsExceptAtIndex([1, 7, 3, 4]))
-    
+//: Test
+
+//    print(try getProductsOfAllIntsExceptAtIndex([1, 7, 3, 4]))
+
 /*: 
  Given an array of integers where each value 1 <= x <= len(array), write a function that finds all the duplicates in the array.
  
@@ -314,8 +654,8 @@ func findDuplicates(array:[Int]) -> [Int] {
     return Array(resultSet)
 }
 
-print(findDuplicates(array: [1, 2, 2, 3]))
-print(findDuplicates(array: []))
+//print(findDuplicates(array: [1, 2, 2, 3]))
+//print(findDuplicates(array: []))
 
 
 /*: 
@@ -358,7 +698,7 @@ func removeDuplicates(numbers: [Int]) -> [Int] {
 
 let testDuplicates = [1,2,3,3,4,5]
 
-print(removeDuplicates(numbers: testDuplicates))
+//print(removeDuplicates(numbers: testDuplicates))
 
 /*: Given an array of sorted distinct integers named arr, write a function that returns an index i in arr for which arr[i] = i or -1 if no such index exists.
  
@@ -381,7 +721,7 @@ func indexEqualsValueSearch(array: [Int]) -> Int {
 }
 
 let test = [-8,0,2,5]
-indexEqualsValueSearch(array: test)
+//indexEqualsValueSearch(array: test)
 
 /*: Max Non Negative SubArray
  Find out the maximum sub-array of non negative numbers from an array.
@@ -417,7 +757,7 @@ func maxNonNegativeSubArray(array: [Int]) -> [Int] {
 }
 
 var a = [1, 2, 5, -7, 2, 3]
-maxNonNegativeSubArray(array: a)
+//maxNonNegativeSubArray(array: a)
 
 
 // MAx sub array solution
@@ -463,4 +803,4 @@ func findLargest(data: Array<Int>) -> Int {
     return largest
 }
 
-findLargest(data: sample)
+//findLargest(data: sample)

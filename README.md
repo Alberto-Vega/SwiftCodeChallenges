@@ -22,6 +22,22 @@ Questions are organized by data structures. There is a playground corresponding 
 - Write a function that counts the number of words in a camelCase string.
 - Write a function that checks if a string is a palindrome.
 - Write a method to replace all spaces in a string with ‘%20’.
+- Write a function that counts the number of words in a camelCase string.
+- Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
+- Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
+- Implement a method to perform a basic string compression using the counts of repeated characters. For example, the string aabccccaaa would become a2b1c4a3. If the compressed string would not become smaller than the original string, your method should return the original string.
+
+#### Arrays
+- Given a sorted array in which all elementes appear twice(one after one) and one element appears only once. Find that element in O(log n) complexity.
+- A magic index in an array A[0…n-1] is defined to be an index such that A[i] = i. Given a sorted array of distinct integers, write a method to find a magic index if one exists, in an array A. FOLLOW UP: What if the values are not distinct?
+- Given an array of numbers, split the array into two where one array contains the sum of n-1 numbers and the other array with all the n-1 elements.
+- Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to 0.
+
+
+#### Stacks
+
+- Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
+
 
 #### Binary Search Tree
 Insertion
@@ -45,6 +61,10 @@ Questions
 
 - Determine if a binary tree is balanced
 
+#### Design Patterns.
+Quick Overview
+-Singleton questions
+-Decorator question
 
 
 ## Contributors

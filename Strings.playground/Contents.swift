@@ -3,6 +3,92 @@
 import UIKit
 
 /*:
+ 
+ Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
+
+ Let's say:
+ 
+ '(', '{', '[' are called "openers."
+ ')', '}', ']' are called "closers."
+ 
+ Examples:
+ 
+ "{ [ ] ( ) }" should return true
+ "{ [ ( ] ) }" should return false
+ "{ [ }" should return false
+ 
+ source : https://www.interviewcake.com/ question 29
+ 
+ Logic:
+ Create a stack
+ Iterate over the characters of the string at each step:
+ if current char is an opening bracket we push it to the stack.
+ Or if the current char is a closing bracket, we compare it with 
+ the char in top of the stack. 
+ if they are matching we remove it from the stack if not we return false 
+ since the current bracket has no match.
+ After we complete looping through the string without returning false
+ we just return true meaning all brackets are valid pairs.
+ 
+ */
+
+enum ValidateBracketsError: Error, CustomStringConvertible {
+    case lessThanTwoCharacters
+    var description: String {
+        return "Invalid input: string is less than two characters long"
+    }
+}
+
+func validBrackets(input:String) throws -> Bool {
+    guard input.characters.count >= 2 else {
+        throw ValidateBracketsError.lessThanTwoCharacters
+    }
+    var openingBracketsStack = Stack<Character>()
+    
+    for char in input.characters {
+        if isOpeningBracket(char: char) {
+            openingBracketsStack.push(item: char)
+        } else if isClosingBracket(char:char) {
+            if openingBracketsStack.isEmpty {
+                return false
+            } else {
+                if !areMatchingBrackets(char1: char, char2: openingBracketsStack.pop()) {
+                    return false
+                }
+            }
+        }
+    }
+    return openingBracketsStack.isEmpty
+}
+
+func isOpeningBracket(char: Character) -> Bool {
+    return char == "{" || char == "[" || char == "("
+}
+
+func isClosingBracket(char:Character) -> Bool {
+    return char == "}" || char == "]" || char == ")"
+}
+
+func areMatchingBrackets(char1: Character, char2: Character) -> Bool {
+    let matchingBrackets: [Character : Character]  = ["{":"}","[": "]", "(":")"]
+    return matchingBrackets[char2] == char1
+}
+
+//: Testing 
+
+//try validBrackets(input: "{{{{{{")
+//try validBrackets(input: "{ [ ( ] ) }")
+//try validBrackets(input: "{}{({{}})}[][{{}}]{}{}(){{}[]}{}([[][{}]]())")
+
+//try validBrackets(input: "{ [ }" )
+//do {
+//    try validBrackets(input: "" )
+//}
+//catch {
+//    print(error)
+//}
+
+/*:
  Write a function that counts the number of words in a camelCase string.
  
     input:    							output:
@@ -47,7 +133,7 @@ func countCamelCaseWords(string: String?) -> Int {
     return counter
 }
 
-print(countCamelCaseWords(string: "albertoVega"))
+//print(countCamelCaseWords(string: "albertoVega"))
 
 /*:
  
