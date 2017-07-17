@@ -511,3 +511,6 @@ func createLevelLinkedList(root: TreeNode<Int>) -> Array<LinkedList<TreeNode<Int
  createLevelLinkedList(root, lists, 0);
  return lists; }
  */
+
+//: [Next](@next)
+
