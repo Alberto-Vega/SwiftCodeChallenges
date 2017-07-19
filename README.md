@@ -26,6 +26,7 @@ Questions are organized by data structures. There is a playground corresponding 
 - Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
 - Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
 - Implement a method to perform a basic string compression using the counts of repeated characters. For example, the string aabccccaaa would become a2b1c4a3. If the compressed string would not become smaller than the original string, your method should return the original string.
+-  Write a function for finding the index of the rotation point in an array of strings.
 
 #### Arrays
 - Given a sorted array in which all elementes appear twice(one after one) and one element appears only once. Find that element in O(log n) complexity.

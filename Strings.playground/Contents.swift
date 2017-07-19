@@ -2,6 +2,135 @@
 
 import UIKit
 
+
+/*:
+ 
+ You have an array of words that are sorted but the starting index has been rotated.
+ 
+ like:
+ 
+ ["charlie", "delta", "echo", "alpha", "beta"]
+ 
+ 
+ Write a function for finding the index of the rotation point which is where the alphabetic order starts  in this case 
+ in the word "alpha"
+ 
+ Input:
+ 
+ ["charlie", "delta", "echo", "alpha", "beta"]
+     0          1       2        3       4
+ 
+ Output:
+ 
+    3
+ 
+ Input:
+ 
+ ["car", "cat",  "air",  "at",  " beta", "boulder"]
+    0      1       2      3        4          5
+ 
+ Output:
+ 
+    2
+ 
+ 
+ Input:
+ 
+ ["cantalooupe", "eggplant", "watermelon",  "air",  "apple",  "banana", " beet"]
+        0            1            2           3        4          5        6
+ 
+ Output:
+ 
+ 2
+ 
+ 
+ Brute Force:
+ 
+ Traverse the array and at each step check if the next word is smaller. 
+ If smaller then we have our rotation point.
+ If not check for the left to see if is greater
+ 
+ O(n)
+ 
+ 
+ Binary Search:
+ 
+ O(log n)
+ 
+ Binary Search Recursive:
+ 
+ O(log n) - time
+ O(n) - space
+ 
+ 
+ */
+
+//: Recursive
+public func findRotationPoint(in words: [String], floorIndex: Int, ceilingIndex: Int) -> Int {
+    
+    if (floorIndex + 1) == ceilingIndex  {
+        return ceilingIndex
+    }
+    
+    let firstWord = words[0]
+    
+    let guessIndex = floorIndex + ((ceilingIndex - floorIndex) / 2)
+    
+    if words[guessIndex] >= firstWord {
+        // go right
+        return findRotationPoint(in: words, floorIndex: guessIndex, ceilingIndex: ceilingIndex)
+    } else {
+        // go left
+        return findRotationPoint(in: words, floorIndex: floorIndex, ceilingIndex: guessIndex)
+    }
+}
+
+//: Iterative
+public func findRotationPoint(in words: [String]) -> Int {
+    let firstWord = words[0]
+    
+    var floorIndex = 0
+    var ceilingIndex = words.count - 1
+    
+    while floorIndex < ceilingIndex {
+        // guess a point halfway between floor and ceiling
+        let guessIndex = floorIndex + ((ceilingIndex - floorIndex) / 2)
+        
+        // if guess comes after first word or is the first word
+        if words[guessIndex] >= firstWord {
+            // go right
+            floorIndex = guessIndex
+        } else {
+            // go left
+            ceilingIndex = guessIndex
+        }
+        
+        // if floor and ceiling have converged.
+        if (floorIndex + 1) == ceilingIndex  {
+            break
+        }
+    }
+    return ceilingIndex
+}
+
+//: Tests
+//let test = ["charlie", "delta", "echo", "alpha", "beta"]
+//let test2 = ["car", "cat",  "air",  "at", " beta", "boulder"]
+//let test3 = ["cantalooupe", "eggplant", "watermelon",  "air",  "apple",  "banana", " beet"]
+//
+//print(findRotationPoint(in: test, floorIndex: 0, ceilingIndex: test.count - 1))
+//print(findRotationPoint(in: test2, floorIndex: 0, ceilingIndex: test2.count - 1))
+//print(findRotationPoint(in: test3, floorIndex: 0, ceilingIndex: test3.count - 1))
+
+//print(findRotationPoint(in: test))
+//print(findRotationPoint(in: test2))
+//print(findRotationPoint(in: test3))
+
+//: If the array it is not rotated it won't work.
+//print(findRotationPoint(in: ["a", "b", "c", "d", "e"]))
+
+
+
 /*:
  
  Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
@@ -197,7 +326,7 @@ func findPalindrome(string: String) -> Bool {
     return true
 }
 
-print(findPalindrome(string: "tacocat"))
+//print(findPalindrome(string: "tacocat"))
 
 
 //: Write a method to replace all spaces in a string with ‘%20’.
@@ -263,6 +392,6 @@ var string = "Hello World Again"
 //var arrayString = [Character](string.characters)
 
 
-print(replaceSpaces(string: string))
+//print(replaceSpaces(string: string))
 
 
