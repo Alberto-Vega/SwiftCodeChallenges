@@ -6,8 +6,8 @@ Don't forget to **star** or **watch** the repository; Its content will be expand
 
 ## Motivation
 
-When I was preparing for technical interviews I noticed an unfortunate lack of resources in Swift.
-While in the other hand it was fairly easy to find examples or resources in almost any other programming language. It's gotten way better though now sites like interviewCake have Swift solutions but I feel there is still a lot to do. So I decided to share my solutions so hopefully I can help other people out there.
+    I have the impression that there is a lack of resources in Swift that cover data structures and algorithms.
+    In the other hand it is fairly easy to find examples or resources in almost any other programming language. It's gotten way better though. Now sites like interviewCake have Swift solutions but I feel there is still a lot to do. So I decided to share my solutions so hopefully I can help other people out there.
 
 ## Setup / Usage
 
