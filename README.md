@@ -39,6 +39,14 @@ Questions are organized by data structures. There is a playground corresponding 
 
 - Write an efficient function that tells us whether or not an input string's openers and closers are properly nested.
 
+#### Linked Lists
+
+- Remove a node from a linked list.
+- Return Kth to last node in a linked list.
+- Reverse a linked list.
+- Check a linked list for a cycle or loop.
+- Delete duplicates from a linked list.
+
 
 #### Binary Search Tree
 Insertion
@@ -61,6 +69,17 @@ Questions
 - Given a sorted array, create a binary search tree with minimal height
 
 - Determine if a binary tree is balanced
+
+#### Dynamic programming.
+- You've built an inflight entertainment system with on-demand movie streaming.
+  Users on longer flights like to start a second movie right when their first one ends, but they complain that the plane usually lands before they can see the ending. So you're building a feature for choosing two movies whose total runtimes will equal the exact flight length.
+- You are a renowned thief who has recently switched from stealing precious metals to stealing cakes because of the insane profit margins. You end up hitting the jackpot, breaking into the world's largest privately owned stock of cakes—the vault of the Queen of England.
+    While Queen Elizabeth has a limited number of types of cake, she has an unlimited supply of each type.
+    Eachtype of cake has a weight and a value, You brought a duffel bag that can hold limited weight, and you
+    want to make off with the most valuable haul possible.
+
+    Write a function maxDuffelBagValue() that takes an array of cake type structs and a weight capacity, and
+    returns the maximum monetary value the duffel bag can hold.
 
 #### Design Patterns.
 Quick Overview
